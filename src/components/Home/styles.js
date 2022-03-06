@@ -1,6 +1,5 @@
 import {StyleSheet} from 'react-native';
 import colors from '../../assets/theme/colors';
-// import colors from '../../../assets/theme/colors';
 import {hp, wp} from '../../constants/dimension';
 export default StyleSheet.create({
   profile: {
@@ -8,7 +7,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   leftProfile: {
-    width: wp('40%'),
+    width: wp('60%'),
   },
   rightProfile: {
     width: wp('40%'),
@@ -22,16 +21,41 @@ export default StyleSheet.create({
   },
 
   title: {
-    fontSize: 21,
-    textAlign: 'center',
+    fontSize: 14,
     paddingTop: 20,
     fontWeight: '500',
+    color: 'black',
   },
 
   subTitle: {
-    fontSize: 14,
-    textAlign: 'center',
+    fontSize: 21,
     paddingVertical: 5,
     fontWeight: '500',
+  },
+
+  scrollBox: {
+    marginRight: 15,
+  },
+  scrollText: {
+    fontSize: 20,
+    color: '#2b2a27',
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  card: {
+    margin: 15,
+    border: '1px solid black',
+    borderWidth: 1,
+  },
+  cardTitle: {
+    fontSize: 15,
+    color: 'black',
+    fontWeight: 'bold',
+  },
+  switch: {
+    alignItems: 'flex-start',
   },
 });

@@ -3,11 +3,6 @@ import React, {useState} from 'react';
 import {Image, Text, View, ScrollView, Switch} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Container from '../../components/common/Container';
-import CustomButton from '../../components/common/CustomButton';
-import Input from '../../components/common/Input';
-import {REGISTER} from '../../constants/routeNames';
-import Message from '../common/Message';
-import {FlatListSlider} from 'react-native-flatlist-slider';
 import styles from './styles';
 import {getTheme} from 'react-native-material-kit';
 const HomeComponenet = ({}) => {
@@ -38,106 +33,81 @@ const HomeComponenet = ({}) => {
             scrollEventThrottle={16}
             horizontal={true}
             showsHorizontalScrollIndicator={false}>
-            <View style={{borderWidth: 1, marginRight: 5}}>
-              <Text style={{fontSize: 20}}>1234</Text>
+            <View style={styles.scrollBox}>
+              <Text style={styles.scrollText}>All Room</Text>
             </View>
-            <View style={{borderWidth: 1, marginRight: 5}}>
-              <Text style={{fontSize: 20}}>1234</Text>
+            <View style={styles.scrollBox}>
+              <Text style={styles.scrollText}>Living Room</Text>
             </View>
-            <View style={{borderWidth: 1, marginRight: 5}}>
-              <Text style={{fontSize: 20}}>1234</Text>
+            <View style={styles.scrollBox}>
+              <Text style={styles.scrollText}>Dining Room</Text>
             </View>
-            <View style={{borderWidth: 1, marginRight: 5}}>
-              <Text style={{fontSize: 20}}>1234</Text>
-            </View>
-            <View style={{borderWidth: 1, marginRight: 5}}>
-              <Text style={{fontSize: 20}}>1234</Text>
-            </View>
-            <View style={{borderWidth: 1, marginRight: 5}}>
-              <Text style={{fontSize: 20}}>1234</Text>
-            </View>
-            <View style={{borderWidth: 1, marginRight: 5}}>
-              <Text style={{fontSize: 20}}>1234</Text>
-            </View>
-            <View style={{borderWidth: 1, marginRight: 5}}>
-              <Text style={{fontSize: 20}}>1234</Text>
-            </View>
-            <View style={{borderWidth: 1, marginRight: 5}}>
-              <Text style={{fontSize: 20}}>1234</Text>
-            </View>
-            <View style={{borderWidth: 1, marginRight: 5}}>
-              <Text style={{fontSize: 20}}>1234</Text>
-            </View>
-            <View style={{borderWidth: 1, marginRight: 5}}>
-              <Text style={{fontSize: 20}}>1234</Text>
-            </View>
-            <View style={{borderWidth: 1, marginRight: 5}}>
-              <Text style={{fontSize: 20}}>1234</Text>
-            </View>
-            <View style={{borderWidth: 1, marginRight: 5}}>
-              <Text style={{fontSize: 20}}>1234</Text>
+            <View style={styles.scrollBox}>
+              <Text style={styles.scrollText}>Study Room</Text>
             </View>
           </ScrollView>
         </ScrollView>
-        <Container>
-          <View style={styles.card}>
-            <Text>Living Room</Text>
-            <Text>5 Devices</Text>
-          </View>
-          <View>
-            <Switch
-              trackColor={{false: '#767577', true: '#81b0ff'}}
-              thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={true}
-            />
-          </View>
-        </Container>
-        <Container>
-          <View style={styles.card}>
-            <Text>Living Room</Text>
-            <Text>5 Devices</Text>
-          </View>
-          <View>
-            <Switch
-              trackColor={{false: '#767577', true: '#81b0ff'}}
-              thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={true}
-            />
-          </View>
-        </Container>
-        <Container>
-          <View style={styles.card}>
-            <Text>Living Room</Text>
-            <Text>5 Devices</Text>
-          </View>
-          <View>
-            <Switch
-              trackColor={{false: '#767577', true: '#81b0ff'}}
-              thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={true}
-            />
-          </View>
-        </Container>
-        <Container>
-          <View style={styles.card}>
-            <Text>Living Room</Text>
-            <Text>5 Devices</Text>
-          </View>
-          <View>
-            <Switch
-              trackColor={{false: '#767577', true: '#81b0ff'}}
-              thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={toggleSwitch}
-              value={true}
-            />
-          </View>
+        <Container style={styles.container}>
+          <Container style={styles.card}>
+            <View>
+              <Text style={styles.cardTitle}>Living Room</Text>
+              <Text>5 Devices</Text>
+            </View>
+            <View style={styles.switch}>
+              <Switch
+                trackColor={{false: '#767577', true: '#81b0ff'}}
+                thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch}
+                value={true}
+              />
+            </View>
+          </Container>
+          <Container style={styles.card}>
+            <View>
+              <Text style={styles.cardTitle}>Living Room</Text>
+              <Text>5 Devices</Text>
+            </View>
+            <View style={styles.switch}>
+              <Switch
+                trackColor={{false: '#767577', true: '#81b0ff'}}
+                thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch}
+                value={true}
+              />
+            </View>
+          </Container>
+          <Container style={styles.card}>
+            <View>
+              <Text style={styles.cardTitle}>Living Room</Text>
+              <Text>5 Devices</Text>
+            </View>
+            <View style={styles.switch}>
+              <Switch
+                trackColor={{false: '#767577', true: '#81b0ff'}}
+                thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch}
+                value={true}
+              />
+            </View>
+          </Container>
+          <Container style={styles.card}>
+            <View>
+              <Text style={styles.cardTitle}>Living Room</Text>
+              <Text>5 Devices</Text>
+            </View>
+            <View style={styles.switch}>
+              <Switch
+                trackColor={{false: '#767577', true: '#81b0ff'}}
+                thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch}
+                value={true}
+              />
+            </View>
+          </Container>
         </Container>
       </Container>
     </ScrollView>
