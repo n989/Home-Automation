@@ -5441,6 +5441,11 @@
     "split-on-first" "^1.0.0"
     "strict-uri-encode" "^2.0.0"
 
+"ramda@^0.27.0":
+  "integrity" "sha512-SbiLPU40JuJniHexQSAgad32hfwd+DRUdwF2PlVuI5RZD0/vahUco7R8vD86J/tcEKKF9vZrUVwgtmGCqlCKyA=="
+  "resolved" "https://registry.npmjs.org/ramda/-/ramda-0.27.2.tgz"
+  "version" "0.27.2"
+
 "range-parser@~1.2.1":
   "integrity" "sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg=="
   "resolved" "https://registry.npmjs.org/range-parser/-/range-parser-1.2.1.tgz"
@@ -5488,6 +5493,11 @@
     "jscodeshift" "^0.11.0"
     "nullthrows" "^1.1.1"
 
+"react-native-flatlist-slider@^1.0.6":
+  "integrity" "sha512-F1C87eGIte9nfBU/MyNI6OOVKR/uCwFMrjVGv2j5u0LZjBm2WoEso96kPF2j0PIG8+XerD7Y2pmtGdCMCWxtcA=="
+  "resolved" "https://registry.npmjs.org/react-native-flatlist-slider/-/react-native-flatlist-slider-1.0.6.tgz"
+  "version" "1.0.6"
+
 "react-native-gesture-handler@*", "react-native-gesture-handler@^2.3.0", "react-native-gesture-handler@>= 1.0.0":
   "integrity" "sha512-dgfx/fY61gLMWrGTcSlKTW7dhrzIGF+w3QwvkudBF1zssRlc+HxhkAhrma6d7DHXp1MfSbS6tYXrbpMPUZYW6A=="
   "resolved" "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.3.0.tgz"
@@ -5498,6 +5508,13 @@
     "invariant" "^2.2.4"
     "lodash" "^4.17.21"
     "prop-types" "^15.7.2"
+
+"react-native-material-kit@^0.6.0-beta.1":
+  "integrity" "sha512-QSN18qrEf/+imSkkp6dH0gpEE3A4CoIKm/vML5ZAgWTQXJVKLjoAmnjRw7S93ZLXfb7hjaKvkX6B62uYHqaZog=="
+  "resolved" "https://registry.npmjs.org/react-native-material-kit/-/react-native-material-kit-0.6.0-beta.1.tgz"
+  "version" "0.6.0-beta.1"
+  dependencies:
+    "ramda" "^0.27.0"
 
 "react-native-reanimated@^2.4.1", "react-native-reanimated@>= 1.0.0":
   "integrity" "sha512-kvf7ylGlwa5hxMQ+wpPFjQrI2c6eexf53/xRo+dvXBNefGmSYaYR5sFtD0XMMzIPQlkCB9tJ0Pu9+2WCQUY7Cg=="
@@ -5525,7 +5542,7 @@
     "react-freeze" "^1.0.0"
     "warn-once" "^0.1.0"
 
-"react-native@*", "react-native@0.67.3":
+"react-native@*", "react-native@>=0.50.0", "react-native@0.67.3":
   "integrity" "sha512-epMVRMRH7dLCis97+YwiV4dmTVZO6qKmQgwcTNcxVt/kEMxAa+OYK7h81+99/n7XCeMFk/U2zYOBuQqc7c5Amg=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.67.3.tgz"
   "version" "0.67.3"

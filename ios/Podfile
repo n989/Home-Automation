@@ -12,6 +12,8 @@ target 'Automation' do
     :hermes_enabled => false
   )
 
+  pod 'react-native-material-kit', :path => '../node_modules/react-native-material-kit'
+
   target 'AutomationTests' do
     inherit! :complete
     # Pods for testing
