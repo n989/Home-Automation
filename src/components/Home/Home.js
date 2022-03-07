@@ -28,6 +28,8 @@ const HomeComponenet = ({}) => {
             />
           </View>
         </View>
+        <View></View>
+
         <ScrollView>
           <ScrollView
             scrollEventThrottle={16}
