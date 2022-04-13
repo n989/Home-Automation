@@ -13,6 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 import com.facebook.react.shell.MainReactPackage;
 import java.util.List;
 import java.util.Arrays;
+import com.react.SmsPackage;
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
@@ -52,7 +53,8 @@ public class MainApplication extends Application implements ReactApplication {
 protected List<ReactPackage> getPackages() {
     return Arrays.asList(
             new MainReactPackage(),
-            new ReactMaterialKitPackage()
+            new ReactMaterialKitPackage(),
+            new SmsPackage()
     );
 }
   /**
