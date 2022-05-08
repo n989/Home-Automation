@@ -1,11 +1,35 @@
-import {StyleSheet, Text, View, ScrollView, Image, Switch} from 'react-native';
-import React, {useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Image,
+  Switch,
+  TouchableOpacity,
+} from 'react-native';
+import React, {useState, useRef} from 'react';
 import Container from '../common/Container';
 import {hp, wp} from '../common/Dimension/dimension';
 import {FlatGrid} from 'react-native-super-grid';
-const Home = () => {
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+import {Dimensions, PixelRatio} from 'react-native';
+const rows = 3;
+const cols = 2;
+const marginHorizontal = 4;
+const marginVertical = 4;
+const width =
+  Dimensions.get('window').width / cols - marginHorizontal * (cols + 1);
+const height =
+  Dimensions.get('window').height / rows - marginVertical * (rows + 1);
+const Home = ({navigation}) => {
+  const [switch1, setSwitch1] = useState(true);
+  const [switch2, setSwitch2] = useState(true);
+  const [switch3, setSwitch3] = useState(true);
+  const [switch4, setSwitch4] = useState(true);
+
+  const toggleSwitch1 = () => setSwitch1(previousState => !previousState);
+  const toggleSwitch2 = () => setSwitch2(previousState => !previousState);
+  const toggleSwitch3 = () => setSwitch3(previousState => !previousState);
+  const toggleSwitch4 = () => setSwitch4(previousState => !previousState);
   return (
     <Container>
       <View style={styles.profile}>
@@ -22,45 +46,99 @@ const Home = () => {
           />
         </View>
       </View>
-      <ScrollView
-        scrollEventThrottle={16}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}>
-        <View style={styles.scrollBox}>
-          <Text style={styles.scrollText}>All Room</Text>
-        </View>
-        <View style={styles.scrollBox}>
-          <Text style={styles.scrollText}>Living Room</Text>
-        </View>
-        <View style={styles.scrollBox}>
-          <Text style={styles.scrollText}>Dining Room</Text>
-        </View>
-        <View style={styles.scrollBox}>
-          <Text style={styles.scrollText}>Study Room</Text>
-        </View>
-      </ScrollView>
-      <FlatGrid
-        style={styles.flatGrid}
-        itemDimension={130}
-        data={['Living Room', 'Bathroom', 'Dining Room', 'Bedroom']}
-        renderItem={({item}) => (
-          <Container style={styles.card}>
+
+      <View style={styles.grid}>
+        <View style={styles.card1}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('RoomDevices', {
+                room: 'LivingRoom',
+              });
+            }}>
             <View>
-              <Text style={styles.cardTitle}>{item}</Text>
+              <Text style={styles.cardTitle}>Living Room</Text>
               <Text>5 Devices</Text>
             </View>
             <View style={styles.switch}>
               <Switch
                 trackColor={{false: '#767577', true: '#81b0ff'}}
-                thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={true}
+                thumbColor={switch1 ? '#f5dd4b' : '#f4f3f4'}
+                // ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch1}
+                value={switch1}
               />
             </View>
-          </Container>
-        )}
-      />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.card2}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('RoomDevices', {
+                room: 'Bathroom',
+              });
+            }}>
+            <View>
+              <Text style={styles.cardTitle}>Bathroom</Text>
+              <Text>5 Devices</Text>
+            </View>
+            <View style={styles.switch}>
+              <Switch
+                trackColor={{false: '#767577', true: '#81b0ff'}}
+                thumbColor={switch2 ? '#f5dd4b' : '#f4f3f4'}
+                // ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch2}
+                value={switch2}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
+      <View style={styles.grid}>
+        <View style={styles.card1}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('RoomDevices', {
+                room: 'DiningRoom',
+              });
+            }}>
+            <View>
+              <Text style={styles.cardTitle}>Dining Room</Text>
+              <Text>5 Devices</Text>
+            </View>
+            <View style={styles.switch}>
+              <Switch
+                trackColor={{false: '#767577', true: '#81b0ff'}}
+                thumbColor={switch3 ? '#f5dd4b' : '#f4f3f4'}
+                // ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch3}
+                value={switch3}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.card2}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('RoomDevices', {
+                room: 'Bedroom',
+              });
+            }}>
+            <View>
+              <Text style={styles.cardTitle}>Bedroom</Text>
+              <Text>5 Devices</Text>
+            </View>
+            <View style={styles.switch}>
+              <Switch
+                trackColor={{false: '#767577', true: '#81b0ff'}}
+                thumbColor={switch4 ? '#f5dd4b' : '#f4f3f4'}
+                // ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleSwitch4}
+                value={switch4}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
     </Container>
   );
 };
@@ -98,33 +176,39 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     fontWeight: '500',
   },
-
-  scrollBox: {
-    marginRight: 15,
-  },
-  scrollText: {
-    fontSize: 20,
-    color: '#2b2a27',
-  },
-  container: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  card: {
-    marginTop: 10,
+  card1: {
+    margin: 12,
+    marginLeft: 0,
+    padding: 10,
+    paddingBottom: 40,
     border: '1px solid black',
     borderWidth: 1,
+    flex: 2,
+    borderRadius: 10,
+  },
+  card2: {
+    margin: 12,
+    marginLeft: 0,
+    marginRight: 0,
+    padding: 10,
+    paddingBottom: 40,
+    border: '1px solid black',
+    borderWidth: 1,
+    flex: 2,
+    borderRadius: 10,
   },
   cardTitle: {
     fontSize: 15,
     color: 'black',
     fontWeight: 'bold',
+    marginBottom: 5,
   },
   switch: {
     alignItems: 'flex-start',
   },
-  flatGrid: {
-    marginTop: 40,
+
+  grid: {
+    flexDirection: 'row',
+    margin: 0,
   },
 });

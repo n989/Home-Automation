@@ -4,13 +4,14 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import HomeScreen from './Main/Home';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import DevicesScreen from './Main/AllDevices';
+import ProfileScreen from './Main/Profile';
 const Main = () => {
   const Tab = createMaterialBottomTabNavigator();
 
   return (
-    <Tab.Navigator initialRouteName="Feed" labeled={false}>
+    <Tab.Navigator initialRouteName="Home" labeled={false}>
       <Tab.Screen
-        name="Feed"
+        name="Home"
         component={HomeScreen}
         options={{
           tabBarIcon: ({color, size}) => (
@@ -51,7 +52,7 @@ const Main = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={HomeScreen}
+        component={ProfileScreen}
         options={{
           tabBarIcon: ({color, size}) => (
             <MaterialCommunityIcons

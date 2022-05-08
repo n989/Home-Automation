@@ -6,10 +6,12 @@ import {
   StyleSheet,
   Text,
   PermissionsAndroid,
+  Button,
 } from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import MainScreen from './components/Main';
 import SmsAndroid from 'react-native-get-sms-android';
+import RoomDevices from './components/Main/RoomDevices';
 const App = () => {
   const Stack = createNativeStackNavigator();
   // const filter = {
@@ -88,6 +90,20 @@ const App = () => {
           name="Main"
           component={MainScreen}
           options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="RoomDevices"
+          component={RoomDevices}
+          options={{
+            headerTitle: props => <Text>Devices</Text>,
+            headerRight: () => (
+              <Button
+                onPress={() => alert('This is a button!')}
+                title="Info"
+                color="#fff"
+              />
+            ),
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
