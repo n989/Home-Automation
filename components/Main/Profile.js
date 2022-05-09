@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     fontSize: 30,
     fontWeight: 'bold',
+    color: 'black',
   },
   item: {
     margin: 5,
@@ -46,9 +47,10 @@ const styles = StyleSheet.create({
   },
   largeText: {
     fontSize: 20,
-    color: 'black', 
+    color: 'black',
   },
   smallText: {
     fontSize: 15,
+    color: '#666',
   },
 });

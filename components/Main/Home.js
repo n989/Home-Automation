@@ -57,7 +57,7 @@ const Home = ({navigation}) => {
             }}>
             <View>
               <Text style={styles.cardTitle}>Living Room</Text>
-              <Text>5 Devices</Text>
+              <Text style={{color: 'black'}}>5 Devices</Text>
             </View>
             <View style={styles.switch}>
               <Switch
@@ -79,7 +79,7 @@ const Home = ({navigation}) => {
             }}>
             <View>
               <Text style={styles.cardTitle}>Bathroom</Text>
-              <Text>5 Devices</Text>
+              <Text style={{color: 'black'}}>5 Devices</Text>
             </View>
             <View style={styles.switch}>
               <Switch
@@ -103,7 +103,7 @@ const Home = ({navigation}) => {
             }}>
             <View>
               <Text style={styles.cardTitle}>Dining Room</Text>
-              <Text>5 Devices</Text>
+              <Text style={{color: 'black'}}>5 Devices</Text>
             </View>
             <View style={styles.switch}>
               <Switch
@@ -125,7 +125,7 @@ const Home = ({navigation}) => {
             }}>
             <View>
               <Text style={styles.cardTitle}>Bedroom</Text>
-              <Text>5 Devices</Text>
+              <Text style={{color: 'black'}}>5 Devices</Text>
             </View>
             <View style={styles.switch}>
               <Switch
@@ -175,6 +175,7 @@ const styles = StyleSheet.create({
     fontSize: 21,
     paddingVertical: 5,
     fontWeight: '500',
+    color: 'black',
   },
   card1: {
     margin: 12,
