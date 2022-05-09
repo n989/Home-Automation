@@ -12,6 +12,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import MainScreen from './components/Main';
 import SmsAndroid from 'react-native-get-sms-android';
 import RoomDevices from './components/Main/RoomDevices';
+import DisplayMessage from './components/Main/MessageArea';
 const App = () => {
   const Stack = createNativeStackNavigator();
   const filter = {
@@ -95,13 +96,15 @@ const App = () => {
           name="RoomDevices"
           component={RoomDevices}
           options={{
-            headerTitle: props => <Text>Devices</Text>,
-            headerRight: () => (
-              <Button
-                onPress={() => alert('This is a button!')}
-                title="Info"
-                color="#fff"
-              />
+            headerTitle: props => <Text style={{color: 'black'}}>Devices</Text>,
+          }}
+        />
+        <Stack.Screen
+          name="DisplayMessage"
+          component={DisplayMessage}
+          options={{
+            headerTitle: props => (
+              <Text style={{color: 'black'}}>Messages</Text>
             ),
           }}
         />
