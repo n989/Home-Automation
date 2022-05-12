@@ -1,6 +1,7 @@
 import {USER_STATE_CHANGE} from '../actions/types';
 
 const initialState = {
+  loggedIn: false,
   currentUser: null,
 };
 
