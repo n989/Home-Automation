@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "942170059943",
+    "project_id": "smart-home-c3cf6",
+    "storage_bucket": "smart-home-c3cf6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942170059943:android:50db7cd89b058286b7d782",
+        "android_client_info": {
+          "package_name": "com.automation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "942170059943-o5jjvu0epj96pjp6g8musfg824t0un1p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeCEvFiSxpiQReMxGoIwar6fUv4G4GORE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "942170059943-o5jjvu0epj96pjp6g8musfg824t0un1p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

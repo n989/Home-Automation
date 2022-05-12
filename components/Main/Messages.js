@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import {Message} from './Message';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Messages = ({navigation}) => {
   return (
@@ -28,7 +29,11 @@ const Messages = ({navigation}) => {
             }>
             <View style={styles.userInfo}>
               <View style={styles.userImgWrapper}>
-                <Image style={styles.userImgWrapper} source={''} />
+                <MaterialCommunityIcons
+                  name="account-circle"
+                  // color={color}
+                  size={46}
+                />
               </View>
               <View style={styles.textSection}>
                 <View style={styles.userInfoText}>
@@ -50,9 +55,9 @@ export default Messages;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingLeft: 20,
+    paddingLeft: 10,
     paddingRight: 20,
-    alignItems: 'center',
+    // alignItems: 'center',
     backgroundColor: '#ffffff',
   },
   heading: {
@@ -68,18 +73,15 @@ const styles = StyleSheet.create({
   },
   userInfo: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
   },
   userImgWrapper: {
-    paddingBottom: 15,
-    paddingTop: 15,
+    // backgroundColor: 'red',
+    // paddingBottom: 15,
+    paddingTop: 25,
   },
-  userImg: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-  },
+
   textSection: {
+    // backgroundColor: 'green',
     flexDirection: 'column',
     justifyContent: 'center',
     padding: 15,

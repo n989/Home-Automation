@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 import React from 'react';
 import {Device} from './Device';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 const AllDevices = () => {
   return (
     <View style={{margin: 20}}>
@@ -21,7 +23,9 @@ const AllDevices = () => {
             <TouchableOpacity style={styles.card}>
               <View style={styles.userInfo}>
                 <View style={styles.userImgWrapper}>
-                  <Image style={styles.userImgWrapper} source={''} />
+                  <MaterialCommunityIcons name="home" size={26} />
+
+                  {/* <Image style={styles.userImgWrapper} source={''} /> */}
                 </View>
                 <View style={styles.textSection}>
                   <View style={styles.userInfoText}>
@@ -53,11 +57,10 @@ const styles = StyleSheet.create({
   },
   userInfo: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
   },
   userImgWrapper: {
     paddingBottom: 15,
-    paddingTop: 15,
+    paddingTop: 25,
   },
   userImg: {
     width: 50,
