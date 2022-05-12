@@ -35,135 +35,153 @@ const Home = ({navigation}) => {
   const toggleSwitch4 = () => setSwitch4(previousState => !previousState);
 
   return (
-    <ImageBackground
-      source={{
-        uri: 'https://firebasestorage.googleapis.com/v0/b/smart-home-c3cf6.appspot.com/o/WhatsApp%20Image%202022-05-11%20at%208.28.38%20PM.jpeg?alt=media&token=8ab54a4f-1bcf-424a-8bac-eadfb1188089',
-      }}
-      imageStyle={{opacity: 1}}
-      style={{
-        flex: 1,
-        width: '100%',
-        height: '100%',
-        resizeMode: 'cover',
-      }}>
-      <Container>
-        <View style={styles.profile}>
-          <View style={styles.leftProfile}>
-            <Text style={styles.title}>Welcome Home,</Text>
-            <Text style={styles.subTitle}>Naveen Kumar Meena</Text>
+    <ScrollView>
+      <ImageBackground
+        source={{
+          uri: 'https://firebasestorage.googleapis.com/v0/b/smart-home-c3cf6.appspot.com/o/WhatsApp%20Image%202022-05-11%20at%208.28.38%20PM.jpeg?alt=media&token=8ab54a4f-1bcf-424a-8bac-eadfb1188089',
+        }}
+        imageStyle={{opacity: 1}}
+        style={{
+          flex: 1,
+          width: '100%',
+          height: '100%',
+          resizeMode: 'cover',
+        }}>
+        <Container>
+          <View style={styles.profile}>
+            <View style={styles.leftProfile}>
+              <Text style={styles.title}>Welcome Home,</Text>
+              <Text style={styles.subTitle}>Naveen Kumar Meena</Text>
+            </View>
+            <View style={styles.rightProfile}>
+              <Image
+                height={70}
+                width={70}
+                // source={require('../../assets/signup.jpeg')}
+                style={styles.logoImage}
+              />
+            </View>
           </View>
-          <View style={styles.rightProfile}>
-            <Image
-              height={70}
-              width={70}
-              // source={require('../../assets/images/logo.png')}
-              style={styles.logoImage}
-            />
-          </View>
-        </View>
 
-        <View style={styles.grid}>
-          <View style={styles.card1}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('RoomDevices', {
-                  room: 'LivingRoom',
-                });
-              }}>
-              <View>
-                <Text style={styles.cardTitle}>Living Room</Text>
-                <Text style={{color: 'black'}}>5 Devices</Text>
-              </View>
-              <View style={styles.switch}>
-                <Switch
-                  trackColor={{false: '#767577', true: '#81b0ff'}}
-                  thumbColor={switch1 ? '#f5dd4b' : '#f4f3f4'}
-                  onValueChange={toggleSwitch1}
-                  value={switch1}
+          <View style={styles.grid}>
+            <View style={styles.card1}>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('RoomDevices', {
+                    room: 'LivingRoom',
+                  });
+                }}>
+                <Image
+                  source={require('../../assets/livingRoom.jpg')}
+                  style={styles.cardImage}
                 />
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.card2}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('RoomDevices', {
-                  room: 'Bathroom',
-                });
-              }}>
-              <View>
-                <Text style={styles.cardTitle}>Bathroom</Text>
-                <Text style={{color: 'black'}}>5 Devices</Text>
-              </View>
-              <View style={styles.switch}>
-                <Switch
-                  trackColor={{false: '#767577', true: '#81b0ff'}}
-                  thumbColor={switch2 ? '#f5dd4b' : '#f4f3f4'}
-                  // ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitch2}
-                  value={switch2}
+                <View style={{backgroundColor: '#055680'}}>
+                  <Text style={styles.cardTitle}>Living Room</Text>
+                  <Text style={styles.cardSubTitle}>5 Devices</Text>
+                </View>
+                <View style={styles.switch}>
+                  <Switch
+                    trackColor={{false: '#767577', true: '#81b0ff'}}
+                    thumbColor={switch1 ? '#f5dd4b' : '#f4f3f4'}
+                    onValueChange={toggleSwitch1}
+                    value={switch1}
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.card2}>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('RoomDevices', {
+                    room: 'Bathroom',
+                  });
+                }}>
+                <Image
+                  source={require('../../assets/bathroom.jpg')}
+                  style={styles.cardImage}
                 />
-              </View>
-            </TouchableOpacity>
+                <View style={{backgroundColor: '#055680'}}>
+                  <Text style={styles.cardTitle}>Bathroom</Text>
+                  <Text style={styles.cardSubTitle}>5 Devices</Text>
+                </View>
+                <View style={styles.switch}>
+                  <Switch
+                    trackColor={{false: '#767577', true: '#81b0ff'}}
+                    thumbColor={switch2 ? '#f5dd4b' : '#f4f3f4'}
+                    // ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitch2}
+                    value={switch2}
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-        <View style={styles.grid}>
-          <View style={styles.card1}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('RoomDevices', {
-                  room: 'DiningRoom',
-                });
-              }}>
-              <View>
-                <Text style={styles.cardTitle}>Dining Room</Text>
-                <Text style={{color: 'black'}}>5 Devices</Text>
-              </View>
-              <View style={styles.switch}>
-                <Switch
-                  trackColor={{false: '#767577', true: '#81b0ff'}}
-                  thumbColor={switch3 ? '#f5dd4b' : '#f4f3f4'}
-                  // ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitch3}
-                  value={switch3}
+          <View style={styles.grid}>
+            <View style={styles.card1}>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('RoomDevices', {
+                    room: 'DiningRoom',
+                  });
+                }}>
+                <Image
+                  source={require('../../assets/diningroom.jpg')}
+                  style={styles.cardImage}
                 />
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.card2}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('RoomDevices', {
-                  room: 'Bedroom',
-                });
-              }}>
-              <View>
-                <Text style={styles.cardTitle}>Bedroom</Text>
-                <Text style={{color: 'white'}}>5 Devices</Text>
-              </View>
-              <View style={styles.switch}>
-                <Switch
-                  trackColor={{false: '#767577', true: '#81b0ff'}}
-                  thumbColor={switch4 ? '#f5dd4b' : '#f4f3f4'}
-                  // ios_backgroundColor="#3e3e3e"
-                  onValueChange={toggleSwitch4}
-                  value={switch4}
+                <View style={{backgroundColor: '#055680'}}>
+                  <Text style={styles.cardTitle}>Dining Room</Text>
+                  <Text style={styles.cardSubTitle}>5 Devices</Text>
+                </View>
+                <View style={styles.switch}>
+                  <Switch
+                    trackColor={{false: '#767577', true: '#81b0ff'}}
+                    thumbColor={switch3 ? '#f5dd4b' : '#f4f3f4'}
+                    // ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitch3}
+                    value={switch3}
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.card2}>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('RoomDevices', {
+                    room: 'Bedroom',
+                  });
+                }}>
+                <Image
+                  source={require('../../assets/bedroom.jpg')}
+                  style={styles.cardImage}
                 />
-              </View>
-            </TouchableOpacity>
+                <View style={{backgroundColor: '#055680'}}>
+                  <Text style={styles.cardTitle}>Bedroom</Text>
+                  <Text style={styles.cardSubTitle}>5 Devices</Text>
+                </View>
+                <View style={styles.switch}>
+                  <Switch
+                    trackColor={{false: '#767577', true: '#81b0ff'}}
+                    thumbColor={switch4 ? '#f5dd4b' : '#f4f3f4'}
+                    // ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitch4}
+                    value={switch4}
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('AllRooms');
-          }}>
-          <View style={{display: 'flex', alignSelf: 'flex-end'}}>
-            <Text style={{color: 'blue'}}>See all</Text>
-          </View>
-        </TouchableOpacity>
-        {/* </ImageBackground> */}
-      </Container>
-    </ImageBackground>
+          {/* <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('AllRooms');
+            }}>
+            <View style={{display: 'flex', alignSelf: 'flex-end'}}>
+              <Text style={{color: 'blue'}}>See all</Text>
+            </View>
+          </TouchableOpacity> */}
+          {/* </ImageBackground> */}
+        </Container>
+      </ImageBackground>
+    </ScrollView>
   );
 };
 
@@ -187,7 +205,18 @@ const styles = StyleSheet.create({
     marginTop: 0,
     marginRight: 0,
   },
-
+  cardImage: {
+    width: '100%',
+    height: 'auto',
+    aspectRatio: 1,
+    marginTop: 0,
+    marginRight: 0,
+    borderRadius: 15,
+    overflow: 'hidden',
+    borderWidth: 3,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+  },
   title: {
     fontSize: 14,
     paddingTop: 20,
@@ -204,10 +233,8 @@ const styles = StyleSheet.create({
   card1: {
     margin: 12,
     marginLeft: 0,
-    padding: 10,
+    padding: 5,
     paddingBottom: 40,
-    border: '1px solid white',
-    borderWidth: 1,
     flex: 2,
     borderRadius: 10,
     borderColor: 'white',
@@ -216,22 +243,28 @@ const styles = StyleSheet.create({
     margin: 12,
     marginLeft: 0,
     marginRight: 0,
-    padding: 10,
+    padding: 5,
     paddingBottom: 40,
-    border: '1px solid black',
-    borderWidth: 1,
     flex: 2,
     borderRadius: 10,
     borderColor: 'white',
   },
   cardTitle: {
-    fontSize: 15,
+    fontSize: 18,
     color: 'white',
     fontWeight: 'bold',
     marginBottom: 5,
   },
+  cardSubTitle: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
   switch: {
     alignItems: 'flex-start',
+    backgroundColor: '#055680',
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
 
   grid: {

@@ -47,28 +47,4 @@ export const Message = [
     messageText:
       'Hey there, this is my test for a post of my social app in React Native.',
   },
-  {
-    id: '7',
-    userName: 'Christy Alex',
-    // userImg: require('../assets/users/user-7.jpg'),
-    messageTime: '2 days ago',
-    messageText:
-      'Hey there, this is my test for a post of my social app in React Native.',
-  },
-  {
-    id: '8',
-    userName: 'Christy Alex',
-    // userImg: require('../assets/users/user-7.jpg'),
-    messageTime: '2 days ago',
-    messageText:
-      'Hey there, this is my test for a post of my social app in React Native.',
-  },
-  {
-    id: '9',
-    userName: 'Christy Alex',
-    // userImg: require('../assets/users/user-7.jpg'),
-    messageTime: '2 days ago',
-    messageText:
-      'Hey there, this is my test for a post of my social app in React Native.',
-  },
 ];

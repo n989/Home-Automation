@@ -12,10 +12,11 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 const AllDevices = () => {
   return (
-    <View style={{margin: 20}}>
-      <Text style={styles.heading}>12 Devices</Text>
-      <Text style={{color: 'black'}}>Connected</Text>
+    <View style={{padding: 20, backgroundColor: '#062949', height: '100%'}}>
+      {/* <Text style={styles.heading}>12 Devices</Text>
+      <Text style={{color: 'black'}}>Connected</Text> */}
       <View>
+        <Text style={styles.heading}>Devices</Text>
         <FlatList
           data={Device}
           keyExtractor={item => item.id}
@@ -49,11 +50,19 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 24,
     fontWeight: '500',
-    color: 'black',
+    color: '#e6f9fa',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    paddingBottom: 30,
   },
 
   card: {
     width: '100%',
+    backgroundColor: '#055681',
+    marginBottom: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    borderRadius: 40,
   },
   userInfo: {
     flexDirection: 'row',
@@ -74,8 +83,8 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
     marginLeft: 10,
     width: 300,
-    borderBottomWidth: 1,
-    borderBottomColor: '#cccccc',
+    // borderBottomWidth: 1,
+    // borderBottomColor: '#cccccc',
   },
   userInfoText: {
     flexDirection: 'row',
@@ -86,15 +95,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     fontFamily: 'Lato-Regular',
-    color: '#666',
+    color: '#8badbc',
   },
   postTime: {
     fontSize: 12,
-    color: '#666',
+    color: '#8badbc',
     fontFamily: 'Lato-Regular',
   },
   messageText: {
     fontSize: 14,
-    color: '#333333',
+    color: '#8badbc',
   },
 });
