@@ -57,8 +57,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 10,
     paddingRight: 20,
-    // alignItems: 'center',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#062949',
+    height: '100%',
+
   },
   heading: {
     marginLeft: 'auto',
@@ -66,30 +67,41 @@ const styles = StyleSheet.create({
     marginTop: 15,
     fontSize: 30,
     fontWeight: 'bold',
-    color: 'black',
+    color: '#e6f9fa',
+    paddingBottom: 30,
+
   },
   card: {
     width: '100%',
+    backgroundColor: '#055681',
+    marginBottom: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    borderRadius: 40,
+    
   },
   userInfo: {
     flexDirection: 'row',
+    
   },
   userImgWrapper: {
-    // backgroundColor: 'red',
-    // paddingBottom: 15,
+    paddingBottom: 15,
     paddingTop: 25,
   },
-
+  userImg: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
   textSection: {
-    // backgroundColor: 'green',
     flexDirection: 'column',
     justifyContent: 'center',
     padding: 15,
     paddingLeft: 0,
     marginLeft: 10,
     width: 300,
-    borderBottomWidth: 1,
-    borderBottomColor: '#cccccc',
+    // borderBottomWidth: 1,
+    // borderBottomColor: '#cccccc',
   },
   userInfoText: {
     flexDirection: 'row',
@@ -100,15 +112,15 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     fontFamily: 'Lato-Regular',
-    color: '#666',
+    color: '#8badbc',
   },
   postTime: {
     fontSize: 12,
-    color: '#666',
+    color: '#8badbc',
     fontFamily: 'Lato-Regular',
   },
   messageText: {
     fontSize: 14,
-    color: '#333333',
+    color: '#8badbc',
   },
 });

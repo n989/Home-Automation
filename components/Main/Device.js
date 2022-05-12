@@ -41,25 +41,4 @@ export const Device = [
     usageTime: '2 hours',
     deviceRoom: 'Living Room',
   },
-  {
-    id: '7',
-    deviceName: 'Home Light',
-    // userImg: require('../assets/users/user-7.jpg'),
-    usageTime: '2 hours',
-    deviceRoom: 'Living Room',
-  },
-  {
-    id: '8',
-    deviceName: 'Smart Camera',
-    // userImg: require('../assets/users/user-7.jpg'),
-    usageTime: '2 hours',
-    deviceRoom: 'Living Room',
-  },
-  {
-    id: '9',
-    deviceName: 'Smart Camera',
-    // userImg: require('../assets/users/user-7.jpg'),
-    usageTime: '2 hours',
-    deviceRoom: 'Living Room',
-  },
 ];

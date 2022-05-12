@@ -5,23 +5,35 @@ import {
   Text,
   TouchableOpacity,
   ImageBackground,
+  ActivityIndicator,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {Button} from 'react-native-paper';
 import {FormBuilder} from 'react-native-paper-form-builder';
 import {useForm} from 'react-hook-form';
 import auth from '@react-native-firebase/auth';
 import onboard from '../../assets/onboard.png';
-const Login = ({navigation}) => {
+
+import {setUser} from '../../redux/actions/user';
+
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+const Login = ({navigation, user, setUser}) => {
+  const [processing, setProcessing] = useState(false);
+  const [error, setError] = useState(null);
+
   const signUp = async ({email, password}) => {
+    setProcessing(true);
     await auth()
       .signInWithEmailAndPassword(email, password)
       .then(result => {
         console.log(result);
+        setUser(result);
         navigation.navigate('Main');
       })
       .catch(error => {
-        console.log(error);
+        setProcessing(false);
+        setError(error);
       });
   };
   const {control, setFocus, handleSubmit} = useForm({
@@ -33,76 +45,100 @@ const Login = ({navigation}) => {
   });
 
   return (
-    <ImageBackground
-      source={{
-        uri: 'https://firebasestorage.googleapis.com/v0/b/smart-home-c3cf6.appspot.com/o/pexels-pixabay-276724.jpg?alt=media&token=bfb17a38-7553-487b-b3e1-5261cb6bb5d6',
-      }}
-      imageStyle={{opacity: 0.7}}
-      style={{
-        flex: 1,
-        width: '100%',
-        height: '100%',
-        resizeMode: 'cover',
-      }}>
-      <View style={styles.containerStyle}>
-        <ScrollView contentContainerStyle={styles.scrollViewStyle}>
-          <FormBuilder
-            control={control}
-            setFocus={setFocus}
-            formConfigArray={[
-              {
-                type: 'email',
-                name: 'email',
-
-                rules: {
-                  required: {
-                    value: true,
-                    message: 'Email is required',
-                  },
-                },
-                textInputProps: {
-                  label: 'Email',
-                },
-              },
-              {
-                type: 'password',
-                name: 'password',
-                rules: {
-                  required: {
-                    value: true,
-                    message: 'Password is required',
-                  },
-                },
-                textInputProps: {
-                  label: 'Password',
-                },
-              },
-            ]}
+    <>
+      {processing ? (
+        <ImageBackground
+          source={require('../../assets/signup.jpeg')}
+          imageStyle={{opacity: 0.7}}
+          style={{
+            flex: 1,
+            width: '100%',
+            height: '100%',
+            resizeMode: 'cover',
+          }}>
+          <ActivityIndicator
+            size={60}
+            color="#00ff00"
+            style={{marginTop: 'auto', marginBottom: 'auto'}}
           />
-          <Button
-            mode={'contained'}
-            onPress={handleSubmit(data => {
-              signUp(data);
-            })}>
-            Submit
-          </Button>
-          <View style={styles.login}>
-            <Text style={styles.text1}>New user?</Text>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('SignUp');
-              }}>
-              <Text style={styles.text2}>Sign Up</Text>
-            </TouchableOpacity>
+        </ImageBackground>
+      ) : (
+        <ImageBackground
+          source={require('../../assets/login.jpeg')}
+          imageStyle={{opacity: 0.7}}
+          style={{
+            flex: 1,
+            width: '100%',
+            height: '100%',
+            resizeMode: 'cover',
+          }}>
+          <View style={styles.containerStyle}>
+            <ScrollView contentContainerStyle={styles.scrollViewStyle}>
+              <FormBuilder
+                control={control}
+                setFocus={setFocus}
+                formConfigArray={[
+                  {
+                    type: 'email',
+                    name: 'email',
+
+                    rules: {
+                      required: {
+                        value: true,
+                        message: 'Email is required',
+                      },
+                    },
+                    textInputProps: {
+                      label: 'Email',
+                    },
+                  },
+                  {
+                    type: 'password',
+                    name: 'password',
+                    rules: {
+                      required: {
+                        value: true,
+                        message: 'Password is required',
+                      },
+                    },
+                    textInputProps: {
+                      label: 'Password',
+                    },
+                  },
+                ]}
+              />
+              {error && <Text style={styles.error}>{error}</Text>}
+              <Button
+                mode={'contained'}
+                onPress={handleSubmit(data => {
+                  signUp(data);
+                })}>
+                Submit
+              </Button>
+              <View style={styles.login}>
+                <Text style={styles.text1}>New user?</Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('SignUp');
+                  }}>
+                  <Text style={styles.text2}>Sign Up</Text>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
           </View>
-        </ScrollView>
-      </View>
-    </ImageBackground>
+        </ImageBackground>
+      )}
+    </>
   );
 };
 
-export default Login;
-
+const mapStatetoProps = store => {
+  return {
+    user: store.users,
+  };
+};
+const mapDispatchToProps = dispatch => bindActionCreators({setUser}, dispatch);
+export default connect(mapStatetoProps, mapDispatchToProps)(Login);
 const styles = StyleSheet.create({
   containerStyle: {
     flex: 1,
@@ -110,7 +146,7 @@ const styles = StyleSheet.create({
   scrollViewStyle: {
     flex: 1,
     padding: 15,
-    justifyContent: 'center',
+    // justifyContent: 'center',
   },
   headingStyle: {
     fontSize: 30,

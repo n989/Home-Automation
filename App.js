@@ -47,17 +47,24 @@ const App = () => {
         </View>
       )}
       {!loggedIn && (
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Landing">
-            <Stack.Screen
-              name="Landing"
-              component={LandingScreen}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="SignUp" component={SignUp} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <Provider store={configureStore}>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName="Landing">
+              <Stack.Screen
+                name="Landing"
+                component={LandingScreen}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen name="Login" component={Login} />
+              <Stack.Screen name="SignUp" component={SignUp} />
+              <Stack.Screen
+                name="Main"
+                component={MainScreen}
+                options={{headerShown: false}}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </Provider>
       )}
       {loggedIn && (
         <Provider store={configureStore}>
@@ -71,12 +78,30 @@ const App = () => {
               <Stack.Screen
                 name="RoomDevices"
                 component={RoomDevices}
-                options={({route}) => ({title: route.params.room})}
+                options={({route}) => ({
+                  title: route.params.room,
+                  headerStyle: {
+                    backgroundColor: '#062949',
+                  },
+                  headerTintColor: '#e6f9fa',
+                  headerTitleStyle: {
+                    fontWeight: 'bold',
+                  },
+                })}
               />
               <Stack.Screen
                 name="DisplayMessage"
                 component={DisplayMessage}
-                options={({route}) => ({title: route.params.userName})}
+                options={({route}) => ({
+                  title: route.params.userName,
+                  headerStyle: {
+                    backgroundColor: '#062949',
+                  },
+                  headerTintColor: '#e6f9fa',
+                  headerTitleStyle: {
+                    fontWeight: 'bold',
+                  },
+                })}
               />
               <Stack.Screen name="AllRooms" component={AllRooms} />
             </Stack.Navigator>

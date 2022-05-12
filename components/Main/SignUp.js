@@ -5,15 +5,23 @@ import {
   Text,
   TouchableOpacity,
   ImageBackground,
+  ActivityIndicator,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button} from 'react-native-paper';
 import {FormBuilder} from 'react-native-paper-form-builder';
 import {useForm} from 'react-hook-form';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import {setUser} from '../../redux/actions/user';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {proc} from 'react-native-reanimated';
 
-const SignUp = ({navigation}) => {
+const SignUp = ({navigation, user, setUser}) => {
+  const [processing, setProcessing] = useState(false);
+  const [error, setError] = useState(null);
+
   const {control, setFocus, handleSubmit} = useForm({
     defaultValues: {
       name: '',
@@ -28,11 +36,13 @@ const SignUp = ({navigation}) => {
     const email = data.email;
     const password = data.password;
     const name = data.name;
+    setProcessing(true);
     await auth()
       .createUserWithEmailAndPassword(email, password)
       .then(result => {
         console.log(result);
-
+        setProcessing(false);
+        setUser(result);
         firestore()
           .collection('users')
           .doc(auth().currentUser.uid)
@@ -45,106 +55,139 @@ const SignUp = ({navigation}) => {
           });
       })
       .catch(error => {
+        setProcessing(false);
+        setError(error);
         console.log(error);
       });
     console.log('submit', data);
   };
   const onError = (errors, e) => console.log(errors, e);
-
+  // assets\login.jpeg D:\btp\Automation\assets\signup.jpeg
   return (
-    <ImageBackground
-      source={{
-        uri: 'https://firebasestorage.googleapis.com/v0/b/smart-home-c3cf6.appspot.com/o/pexels-pixabay-276724.jpg?alt=media&token=bfb17a38-7553-487b-b3e1-5261cb6bb5d6',
-      }}
-      imageStyle={{opacity: 0.7}}
-      style={{
-        flex: 1,
-        width: '100%',
-        height: '100%',
-        resizeMode: 'cover',
-      }}>
-      <View style={styles.containerStyle}>
-        <FormBuilder
-          control={control}
-          setFocus={setFocus}
-          formConfigArray={[
-            {
-              name: 'name',
-              type: 'text',
-              textInputProps: {
-                label: 'Name',
-              },
-              rules: {
-                required: {
-                  value: true,
-                  message: 'Name is required',
+    <>
+      {processing ? (
+        <ImageBackground
+          source={require('../../assets/signup.jpeg')}
+          imageStyle={{opacity: 0.7}}
+          style={{
+            flex: 1,
+            width: '100%',
+            height: '100%',
+            resizeMode: 'cover',
+          }}>
+          <ActivityIndicator
+            size={60}
+            color="#00ff00"
+            style={{marginTop: 'auto', marginBottom: 'auto'}}
+          />
+        </ImageBackground>
+      ) : (
+        <ImageBackground
+          source={require('../../assets/login.jpeg')}
+          imageStyle={{opacity: 0.7}}
+          style={{
+            flex: 1,
+            width: '100%',
+            height: '100%',
+            resizeMode: 'cover',
+          }}>
+          <View style={styles.containerStyle}>
+            <FormBuilder
+              style={styles.form}
+              control={control}
+              setFocus={setFocus}
+              formConfigArray={[
+                {
+                  name: 'name',
+                  type: 'text',
+                  textInputProps: {
+                    label: 'Name',
+                  },
+                  rules: {
+                    required: {
+                      value: true,
+                      message: 'Name is required',
+                    },
+                  },
                 },
-              },
-            },
-            {
-              name: 'email',
-              type: 'email',
-              textInputProps: {
-                label: 'Email',
-              },
-              rules: {
-                required: {
-                  value: true,
-                  message: 'Email is required',
+                {
+                  name: 'email',
+                  type: 'email',
+                  textInputProps: {
+                    label: 'Email',
+                  },
+                  rules: {
+                    required: {
+                      value: true,
+                      message: 'Email is required',
+                    },
+                    pattern: {
+                      // value:
+                      //   /[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})/,
+                      message: 'Email is invalid',
+                    },
+                  },
                 },
-                pattern: {
-                  // value:
-                  //   /[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})/,
-                  message: 'Email is invalid',
+                {
+                  name: 'password',
+                  type: 'password',
+                  textInputProps: {
+                    label: 'Password',
+                  },
+                  rules: {
+                    required: {
+                      value: true,
+                      message: 'Password is required',
+                    },
+                    minLength: {
+                      value: 6,
+                      message: 'Password should be atleast 6 characters',
+                    },
+                    maxLength: {
+                      value: 30,
+                      message: 'Password should be between 8 and 30 characters',
+                    },
+                  },
                 },
-              },
-            },
-            {
-              name: 'password',
-              type: 'password',
-              textInputProps: {
-                label: 'Password',
-              },
-              rules: {
-                required: {
-                  value: true,
-                  message: 'Password is required',
-                },
-                minLength: {
-                  value: 6,
-                  message: 'Password should be atleast 6 characters',
-                },
-                maxLength: {
-                  value: 30,
-                  message: 'Password should be between 8 and 30 characters',
-                },
-              },
-            },
-          ]}
-        />
-        <Button mode={'contained'} onPress={handleSubmit(onSubmit, onError)}>
-          Sign Up
-        </Button>
-        <View style={styles.login}>
-          <Text style={styles.text1}>Already a user?</Text>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('Login');
-            }}>
-            <Text style={styles.text2}>Login</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </ImageBackground>
+              ]}
+            />
+            {error && <Text style={styles.error}>{error}</Text>}
+            <Button
+              mode={'contained'}
+              onPress={handleSubmit(onSubmit, onError)}>
+              Sign Up
+            </Button>
+            <View style={styles.login}>
+              <Text style={styles.text1}>Already a user?</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('Login');
+                }}>
+                <Text style={styles.text2}>Login</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ImageBackground>
+      )}
+    </>
   );
 };
 
-export default SignUp;
-
+const mapStatetoProps = store => {
+  return {
+    user: store.users,
+  };
+};
+const mapDispatchToProps = dispatch => bindActionCreators({setUser}, dispatch);
+export default connect(mapStatetoProps, mapDispatchToProps)(SignUp);
 const styles = StyleSheet.create({
   containerStyle: {
     flex: 1,
     margin: 10,
+  },
+  form: {
+    backgroundColor: 'red',
+    width: 4,
   },
   login: {
     display: 'flex',
@@ -160,5 +203,12 @@ const styles = StyleSheet.create({
   text2: {
     color: 'blue',
     fontSize: 18,
+  },
+  error: {
+    color: 'red',
+    fontSize: 18,
+    paddingBottom: 10,
+    marginLeft: 10,
+    marginRight: 'auto',
   },
 });

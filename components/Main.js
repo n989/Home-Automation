@@ -13,7 +13,12 @@ import DevicesScreen from './Main/AllDevices';
 import ProfileScreen from './Main/Profile';
 import MessageScreen from './Main/Messages';
 import SmsAndroid from 'react-native-get-sms-android';
-const Main = () => {
+
+import {fetchUser} from '../redux/actions/user';
+
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+const Main = ({fetchUser, user}) => {
   const Tab = createMaterialBottomTabNavigator();
 
   const filter = {
@@ -85,9 +90,17 @@ const Main = () => {
     };
     requestCameraPermission();
   }, []);
-
+  useEffect(() => {
+    fetchUser();
+  }, []);
+  console.log('hello ', user.userDetails);
   return (
-    <Tab.Navigator initialRouteName="Home" labeled={false}>
+    <Tab.Navigator
+      initialRouteName="Home"
+      labeled={false}
+      barStyle={{backgroundColor: '#2a5298'}}
+      activeColor="#f9fafc"
+      inactiveColor="#8093bb">
       <Tab.Screen
         name="Home"
         component={HomeScreen}
@@ -144,7 +157,15 @@ const Main = () => {
     </Tab.Navigator>
   );
 };
+const mapStatetoProps = store => {
+  return {
+    user: store.users,
+  };
+};
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({fetchUser}, dispatch);
+export default connect(mapStatetoProps, mapDispatchToProps)(Main);
 
-export default Main;
+// export default Main;
 
 const styles = StyleSheet.create({});
