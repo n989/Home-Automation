@@ -21,6 +21,8 @@ import LandingScreen from './components/Main/Landing';
 import auth from '@react-native-firebase/auth';
 import {Provider} from 'react-redux';
 import configureStore from './redux/store';
+import Contact from './components/Main/Contact';
+import About from './components/Main/About';
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -104,6 +106,34 @@ const App = () => {
                 })}
               />
               <Stack.Screen name="AllRooms" component={AllRooms} />
+              <Stack.Screen
+                name="Contact"
+                component={Contact}
+                options={({route}) => ({
+                  title: 'Contact',
+                  headerStyle: {
+                    backgroundColor: '#062949',
+                  },
+                  headerTintColor: '#e6f9fa',
+                  headerTitleStyle: {
+                    fontWeight: 'bold',
+                  },
+                })}
+              />
+              <Stack.Screen
+                name="About"
+                component={About}
+                options={() => ({
+                  title: 'About',
+                  headerStyle: {
+                    backgroundColor: '#062949',
+                  },
+                  headerTintColor: '#e6f9fa',
+                  headerTitleStyle: {
+                    fontWeight: 'bold',
+                  },
+                })}
+              />
             </Stack.Navigator>
           </NavigationContainer>
         </Provider>

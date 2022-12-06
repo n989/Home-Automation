@@ -2,13 +2,18 @@ import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import React from 'react';
 
 const MessageArea = ({route}) => {
-  const {userName, messageText, messageTime} = route.params;
+  const {msgLists, messageText, messageTime} = route.params;
+  const renderItem = () => {
+    const lists = msgLists.reverse().map(key => (
+      <Text style={styles.messageText} key={key}>
+        {key.body}
+      </Text>
+    ));
+    return lists;
+  };
   return (
     <View style={{padding: 20, backgroundColor: '#062949', height: '100%'}}>
-      <View style={{position: 'absolute', bottom: 0}}>
-        <Text style={styles.messageTime}>{messageTime}</Text>
-        <Text style={styles.messageText}>{messageText}</Text>
-      </View>
+      <View style={{position: 'absolute', bottom: 0}}>{renderItem()}</View>
     </View>
   );
 };

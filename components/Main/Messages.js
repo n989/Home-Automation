@@ -6,51 +6,76 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {Message} from './Message';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {setMessages} from '../../redux/actions/user';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
-const Messages = ({navigation}) => {
+const Messages = ({navigation, user}) => {
+  const [messages, setMessages] = useState(user.messages);
+
+  const getDate = date => {
+    const t = new Date(date);
+    var formatted =
+      ('0' + t.getDate()).slice(-2) +
+      '/' +
+      ('0' + t.getMonth()).slice(-2) +
+      '/' +
+      t.getFullYear() +
+      ' ' +
+      ('0' + t.getHours()).slice(-2);
+  };
+  const renderMessages = () => {
+    var message = Object.keys(user.messages).map((key, index, value) => (
+      <TouchableOpacity
+        style={styles.card}
+        onPress={() =>
+          navigation.navigate('DisplayMessage', {
+            msgLists: user.messages[key],
+            userName: key,
+          })
+        }
+        key={index}>
+        <View style={styles.userInfo}>
+          <View style={styles.userImgWrapper}>
+            <MaterialCommunityIcons
+              name="account-circle"
+              // color={color}
+              size={46}
+            />
+          </View>
+          <View style={styles.textSection}>
+            <View style={styles.userInfoText}>
+              <Text style={styles.userName}>
+                {user.messages[key][user.messages[key].length - 1]?.address}
+              </Text>
+            </View>
+            <Text style={styles.messageText}>
+              {user.messages[key][user.messages[key].length - 1]?.body}
+            </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    ));
+    return message;
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Messages</Text>
-      <FlatList
-        data={Message}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => (
-          <TouchableOpacity
-            style={styles.card}
-            onPress={() =>
-              navigation.navigate('DisplayMessage', {
-                userName: item.userName,
-                messageTime: item.messageTime,
-                messageText: item.messageText,
-              })
-            }>
-            <View style={styles.userInfo}>
-              <View style={styles.userImgWrapper}>
-                <MaterialCommunityIcons
-                  name="account-circle"
-                  // color={color}
-                  size={46}
-                />
-              </View>
-              <View style={styles.textSection}>
-                <View style={styles.userInfoText}>
-                  <Text style={styles.userName}>{item.userName}</Text>
-                  <Text style={styles.postTime}>{item.messageTime}</Text>
-                </View>
-                <Text style={styles.messageText}>{item.messageText}</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        )}
-      />
+      {renderMessages()}
     </View>
   );
 };
-
-export default Messages;
+const mapStatetoProps = store => {
+  return {
+    user: store.users,
+  };
+};
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({setMessages}, dispatch);
+export default connect(mapStatetoProps, mapDispatchToProps)(Messages);
 
 const styles = StyleSheet.create({
   container: {
@@ -59,7 +84,6 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     backgroundColor: '#062949',
     height: '100%',
-
   },
   heading: {
     marginLeft: 'auto',
@@ -69,7 +93,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#e6f9fa',
     paddingBottom: 30,
-
   },
   card: {
     width: '100%',
@@ -78,11 +101,9 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     borderRadius: 40,
-    
   },
   userInfo: {
     flexDirection: 'row',
-    
   },
   userImgWrapper: {
     paddingBottom: 15,

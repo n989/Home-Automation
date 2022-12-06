@@ -5,46 +5,91 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  Switch,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {Device} from './Device';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {setMessages} from '../../redux/actions/user';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import axios from 'axios';
+const AllDevices = ({user}) => {
+  const [devices, setDevices] = useState(user.allList);
+  const [toggled, setToggled] = useState({
+    words: [
+      {id: 1, text: 'Notification', toggle: false},
+      {id: 2, text: 'Wifi', toggle: false},
+      {id: 3, text: 'Bluetooth', toggle: false},
+    ],
+  });
 
-const AllDevices = () => {
+  const handleDevices = async (value, id) => {
+    axios
+      .get(
+        `https://blynk.cloud/external/api/isHardwareConnected?token=4n0G4lhNjNXKk2ERU1Nv9Z9P1MDlT_Oh`,
+      )
+      .then(response => {
+        if (response.data === true && value === true) {
+          axios
+            .get(
+              `https://blr1.blynk.cloud/external/api/update?token=4n0G4lhNjNXKk2ERU1Nv9Z9P1MDlT_Oh&${devices[id].pin}=1`,
+            )
+            .then(res => {});
+        } else {
+          axios
+            .get(
+              `https://blr1.blynk.cloud/external/api/update?token=4n0G4lhNjNXKk2ERU1Nv9Z9P1MDlT_Oh&${devices[id].pin}=0`,
+            )
+            .then(res => {});
+        }
+      })
+      .catch(error => console.log(error));
+  };
+  const renderWordList = () => {
+    const wordList = user.allList.map((device, i, deviceArray) => (
+      <TouchableOpacity style={styles.card} key={i}>
+        <View style={styles.userInfo}>
+          <View style={styles.userImgWrapper}>
+            <MaterialCommunityIcons name="home" size={26} />
+          </View>
+          <View style={styles.textSection}>
+            <View style={styles.userInfoText}>
+              <Text style={styles.userName}>{device.deviceName}</Text>
+              <Switch
+                trackColor={{false: '#767577', true: '#81b0ff'}}
+                thumbColor={device.status ? '#f5dd4b' : '#f4f3f4'}
+                onValueChange={toggleValue => {
+                  deviceArray[i].status = toggleValue;
+                  setToggled({room: deviceArray});
+                  handleDevices(toggleValue, i);
+                }}
+                value={device.status}
+              />
+            </View>
+          </View>
+        </View>
+      </TouchableOpacity>
+    ));
+    return wordList;
+  };
   return (
     <View style={{padding: 20, backgroundColor: '#062949', height: '100%'}}>
-      {/* <Text style={styles.heading}>12 Devices</Text>
-      <Text style={{color: 'black'}}>Connected</Text> */}
       <View>
         <Text style={styles.heading}>Devices</Text>
-        <FlatList
-          data={Device}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => (
-            <TouchableOpacity style={styles.card}>
-              <View style={styles.userInfo}>
-                <View style={styles.userImgWrapper}>
-                  <MaterialCommunityIcons name="home" size={26} />
-
-                  {/* <Image style={styles.userImgWrapper} source={''} /> */}
-                </View>
-                <View style={styles.textSection}>
-                  <View style={styles.userInfoText}>
-                    <Text style={styles.userName}>{item.deviceName}</Text>
-                    <Text style={styles.postTime}>{item.usageTime}</Text>
-                  </View>
-                  <Text style={styles.messageText}>{item.deviceRoom}</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          )}
-        />
+        {renderWordList()}
       </View>
     </View>
   );
 };
-
-export default AllDevices;
+const mapStatetoProps = store => {
+  return {
+    user: store.users,
+  };
+};
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({setMessages}, dispatch);
+export default connect(mapStatetoProps, mapDispatchToProps)(AllDevices);
 
 const styles = StyleSheet.create({
   heading: {
@@ -70,6 +115,7 @@ const styles = StyleSheet.create({
   userImgWrapper: {
     paddingBottom: 15,
     paddingTop: 25,
+    marginRight: 10,
   },
   userImg: {
     width: 50,

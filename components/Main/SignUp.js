@@ -40,7 +40,6 @@ const SignUp = ({navigation, user, setUser}) => {
     await auth()
       .createUserWithEmailAndPassword(email, password)
       .then(result => {
-        console.log(result);
         setProcessing(false);
         setUser(result);
         firestore()
@@ -59,7 +58,6 @@ const SignUp = ({navigation, user, setUser}) => {
         setError(error);
         console.log(error);
       });
-    console.log('submit', data);
   };
   const onError = (errors, e) => console.log(errors, e);
   // assets\login.jpeg D:\btp\Automation\assets\signup.jpeg

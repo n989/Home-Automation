@@ -14,7 +14,12 @@ import {hp, wp} from '../common/Dimension/dimension';
 import {FlatGrid} from 'react-native-super-grid';
 import {Dimensions, PixelRatio} from 'react-native';
 import storage from '@react-native-firebase/storage';
-
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import SmsAndroid from 'react-native-get-sms-android';
+import {setIds} from '../../redux/actions/user';
+import {setMessages} from '../../redux/actions/user';
+import axios from 'axios';
 const rows = 3;
 const cols = 2;
 const marginHorizontal = 4;
@@ -23,16 +28,89 @@ const width =
   Dimensions.get('window').width / cols - marginHorizontal * (cols + 1);
 const height =
   Dimensions.get('window').height / rows - marginVertical * (rows + 1);
-const Home = ({navigation}) => {
-  const [switch1, setSwitch1] = useState(true);
-  const [switch2, setSwitch2] = useState(true);
-  const [switch3, setSwitch3] = useState(true);
-  const [switch4, setSwitch4] = useState(true);
-
+const Home = ({navigation, user, setMessages, setIds}) => {
   const toggleSwitch1 = () => setSwitch1(previousState => !previousState);
   const toggleSwitch2 = () => setSwitch2(previousState => !previousState);
   const toggleSwitch3 = () => setSwitch3(previousState => !previousState);
   const toggleSwitch4 = () => setSwitch4(previousState => !previousState);
+  const filter = {
+    box: 'inbox',
+    read: 0,
+    indexFrom: 0,
+    maxCount: 1,
+  };
+  const [messages, setMessage] = useState(user.messages);
+  const [ids, setId] = useState(user.ids);
+  const [devices, setDevices] = useState(user.devices);
+  const onDevices = () => {
+    axios
+      .get(
+        `https://blynk.cloud/external/api/isHardwareConnected?token=4n0G4lhNjNXKk2ERU1Nv9Z9P1MDlT_Oh`,
+      )
+      .then(response => {
+        if (response.data === true) {
+          for (let i in devices) {
+            axios
+              .get(
+                `https://blr1.blynk.cloud/external/api/update?token=4n0G4lhNjNXKk2ERU1Nv9Z9P1MDlT_Oh&${devices[i]}=1`,
+              )
+              .then(res => {});
+          }
+        }
+      });
+  };
+  const offDevices = () => {
+    axios
+      .get(
+        `https://blynk.cloud/external/api/isHardwareConnected?token=4n0G4lhNjNXKk2ERU1Nv9Z9P1MDlT_Oh`,
+      )
+      .then(response => {
+        if (response.data === true) {
+          for (let i in devices) {
+            axios
+              .get(
+                `https://blr1.blynk.cloud/external/api/update?token=4n0G4lhNjNXKk2ERU1Nv9Z9P1MDlT_Oh&${devices[i]}=0`,
+              )
+              .then(res => {});
+          }
+        }
+      });
+  };
+
+  const sendCommand = message => {
+    console.log(message);
+    if (message == 'tarrif is high') {
+      offDevices();
+    }
+    if (message == 'tarrif is low') {
+      onDevices();
+    }
+  };
+  useEffect(() => {
+    console.log(user);
+    const interval = setInterval(() => {
+      if (1) {
+        SmsAndroid.list(
+          JSON.stringify(filter),
+          fail => {
+            console.log('Failed with this error: ' + fail);
+          },
+          (count, smsList) => {
+            var arr = JSON.parse(smsList);
+            arr.forEach(function (object) {
+              if (!user.ids.includes(object._id)) {
+                setIds(object._id);
+                setMessages(object);
+                sendCommand(object.body);
+              }
+            });
+          },
+        );
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <ScrollView>
@@ -43,23 +121,15 @@ const Home = ({navigation}) => {
         imageStyle={{opacity: 1}}
         style={{
           flex: 1,
-          width: '100%',
+          width: null,
           height: '100%',
-          resizeMode: 'cover',
+          resizeMode: 'stretch',
         }}>
-        <Container>
+        <Container style={{paddingBottom: 80}}>
           <View style={styles.profile}>
             <View style={styles.leftProfile}>
               <Text style={styles.title}>Welcome Home,</Text>
-              <Text style={styles.subTitle}>Naveen Kumar Meena</Text>
-            </View>
-            <View style={styles.rightProfile}>
-              <Image
-                height={70}
-                width={70}
-                // source={require('../../assets/signup.jpeg')}
-                style={styles.logoImage}
-              />
+              <Text style={styles.subTitle}>{user?.currentUser?.name}</Text>
             </View>
           </View>
 
@@ -68,25 +138,20 @@ const Home = ({navigation}) => {
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate('RoomDevices', {
-                    room: 'LivingRoom',
+                    room: 'Living Room',
                   });
                 }}>
                 <Image
                   source={require('../../assets/livingRoom.jpg')}
                   style={styles.cardImage}
                 />
-                <View style={{backgroundColor: '#055680'}}>
+                <View style={styles.detailSection}>
                   <Text style={styles.cardTitle}>Living Room</Text>
-                  <Text style={styles.cardSubTitle}>5 Devices</Text>
+                  <Text style={styles.cardSubTitle}>
+                    {user.list['Living Room'].length} Devices
+                  </Text>
                 </View>
-                <View style={styles.switch}>
-                  <Switch
-                    trackColor={{false: '#767577', true: '#81b0ff'}}
-                    thumbColor={switch1 ? '#f5dd4b' : '#f4f3f4'}
-                    onValueChange={toggleSwitch1}
-                    value={switch1}
-                  />
-                </View>
+                <View style={styles.switch}></View>
               </TouchableOpacity>
             </View>
             <View style={styles.card2}>
@@ -100,19 +165,16 @@ const Home = ({navigation}) => {
                   source={require('../../assets/bathroom.jpg')}
                   style={styles.cardImage}
                 />
-                <View style={{backgroundColor: '#055680'}}>
+                <View style={styles.detailSection}>
                   <Text style={styles.cardTitle}>Bathroom</Text>
-                  <Text style={styles.cardSubTitle}>5 Devices</Text>
+                  <Text style={styles.cardSubTitle}>
+                    {user.list['Bathroom']?.length
+                      ? `${user.list['Bathroom']?.length}`
+                      : 'No'} 
+                    Device
+                  </Text>
                 </View>
-                <View style={styles.switch}>
-                  <Switch
-                    trackColor={{false: '#767577', true: '#81b0ff'}}
-                    thumbColor={switch2 ? '#f5dd4b' : '#f4f3f4'}
-                    // ios_backgroundColor="#3e3e3e"
-                    onValueChange={toggleSwitch2}
-                    value={switch2}
-                  />
-                </View>
+                <View style={styles.switch}></View>
               </TouchableOpacity>
             </View>
           </View>
@@ -128,19 +190,16 @@ const Home = ({navigation}) => {
                   source={require('../../assets/diningroom.jpg')}
                   style={styles.cardImage}
                 />
-                <View style={{backgroundColor: '#055680'}}>
+                <View style={styles.detailSection}>
                   <Text style={styles.cardTitle}>Dining Room</Text>
-                  <Text style={styles.cardSubTitle}>5 Devices</Text>
+                  <Text style={styles.cardSubTitle}>
+                    {user.list['Dining Room']?.length
+                      ? `user.list['Dining Room']?.length`
+                      : 'No'}
+                    Devices
+                  </Text>
                 </View>
-                <View style={styles.switch}>
-                  <Switch
-                    trackColor={{false: '#767577', true: '#81b0ff'}}
-                    thumbColor={switch3 ? '#f5dd4b' : '#f4f3f4'}
-                    // ios_backgroundColor="#3e3e3e"
-                    onValueChange={toggleSwitch3}
-                    value={switch3}
-                  />
-                </View>
+                <View style={styles.switch}></View>
               </TouchableOpacity>
             </View>
             <View style={styles.card2}>
@@ -154,38 +213,32 @@ const Home = ({navigation}) => {
                   source={require('../../assets/bedroom.jpg')}
                   style={styles.cardImage}
                 />
-                <View style={{backgroundColor: '#055680'}}>
+                <View style={styles.detailSection}>
                   <Text style={styles.cardTitle}>Bedroom</Text>
-                  <Text style={styles.cardSubTitle}>5 Devices</Text>
+                  <Text style={styles.cardSubTitle}>
+                    {user.list['Bedroom']?.length
+                      ? `user.list['Bedroom']?.length`
+                      : 'No'}{' '}
+                    Devices
+                  </Text>
                 </View>
-                <View style={styles.switch}>
-                  <Switch
-                    trackColor={{false: '#767577', true: '#81b0ff'}}
-                    thumbColor={switch4 ? '#f5dd4b' : '#f4f3f4'}
-                    // ios_backgroundColor="#3e3e3e"
-                    onValueChange={toggleSwitch4}
-                    value={switch4}
-                  />
-                </View>
+                <View style={styles.switch}></View>
               </TouchableOpacity>
             </View>
           </View>
-          {/* <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('AllRooms');
-            }}>
-            <View style={{display: 'flex', alignSelf: 'flex-end'}}>
-              <Text style={{color: 'blue'}}>See all</Text>
-            </View>
-          </TouchableOpacity> */}
-          {/* </ImageBackground> */}
         </Container>
       </ImageBackground>
     </ScrollView>
   );
 };
-
-export default Home;
+const mapStatetoProps = store => {
+  return {
+    user: store.users,
+  };
+};
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({setIds, setMessages}, dispatch);
+export default connect(mapStatetoProps, mapDispatchToProps)(Home);
 
 const styles = StyleSheet.create({
   profile: {
@@ -197,6 +250,13 @@ const styles = StyleSheet.create({
   },
   rightProfile: {
     width: wp('40%'),
+  },
+  detailSection: {
+    backgroundColor: '#055680',
+    padding: 8,
+    borderRadius: 15,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
   },
   logoImage: {
     height: 150,

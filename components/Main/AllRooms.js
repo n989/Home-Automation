@@ -6,15 +6,7 @@ const AllRooms = () => {
   const [isEnable, setIsEnable] = useState(new Array(4).fill(true));
   const [change, setChange] = useState(true);
   const [index1, setIndex] = useState(null);
-  //   useEffect(() => {
-  //     console.log(index1);
-  //     setIsEnable(prevState =>
-  //       prevState.map((item, idx) => (idx === index1 ? !item : item)),
-  //     );
-  //     isEnable.map(item => {
-  //       console.log(item);
-  //     });
-  //   }, []);
+
   const HanldeCheck = async index => {
     setIndex(index);
     setChange(!change);

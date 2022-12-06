@@ -5,7 +5,7 @@ import {
   PermissionsAndroid,
   ImageBackground,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import HomeScreen from './Main/Home';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -13,87 +13,126 @@ import DevicesScreen from './Main/AllDevices';
 import ProfileScreen from './Main/Profile';
 import MessageScreen from './Main/Messages';
 import SmsAndroid from 'react-native-get-sms-android';
-
+import AddDevice from './Main/AddDevice';
 import {fetchUser} from '../redux/actions/user';
-
+import {setIds} from '../redux/actions/user';
+import {setMessages} from '../redux/actions/user';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-const Main = ({fetchUser, user}) => {
+import axios from 'axios';
+const Main = ({fetchUser, user, setIds, setMessages}) => {
   const Tab = createMaterialBottomTabNavigator();
-
   const filter = {
-    box: 'sent', // 'inbox' (default), 'sent', 'draft', 'outbox', 'failed', 'queued', and '' for all
+    box: 'inbox',
+    read: 0,
+    indexFrom: 0,
+    maxCount: 1,
+  };
+  const [permissionGranted, setPermissionGranted] = useState(false);
+  const [currentDate, setCurrentDate] = useState('');
+  const [oldDate, setOldDate] = useState('');
+  const [messages, setMessage] = useState(user.messages);
+  const [ids, setId] = useState(user.ids);
+  const [devices, setDevices] = useState(user.devices);
+  const onDevices = () => {
+    axios
+      .get(
+        `https://blynk.cloud/external/api/isHardwareConnected?token=4n0G4lhNjNXKk2ERU1Nv9Z9P1MDlT_Oh`,
+      )
+      .then(response => {
+        console.log(response);
+        if (response.data === true) {
+          for (let i in devices) {
+            axios
+              .get(
+                `https://blr1.blynk.cloud/external/api/update?token=4n0G4lhNjNXKk2ERU1Nv9Z9P1MDlT_Oh&${devices[i]}=1`,
+              )
+              .then(res => {});
+          }
+        }
+      });
+  };
+  const offDevices = () => {
+    axios
+      .get(
+        `https://blynk.cloud/external/api/isHardwareConnected?token=4n0G4lhNjNXKk2ERU1Nv9Z9P1MDlT_Oh`,
+      )
+      .then(response => {
+        console.log(response);
+        if (response.data === true) {
+          for (let i in devices) {
+            axios
+              .get(
+                `https://blr1.blynk.cloud/external/api/update?token=4n0G4lhNjNXKk2ERU1Nv9Z9P1MDlT_Oh&${devices[i]}=0`,
+              )
+              .then(res => {});
+          }
+        }
+      });
+  };
 
-    /**
-     *  the next 3 filters can work together, they are AND-ed
-     *
-     *  minDate, maxDate filters work like this:
-     *    - If and only if you set a maxDate, it's like executing this SQL query:
-     *    "SELECT * from messages WHERE (other filters) AND date <= maxDate"
-     *    - Same for minDate but with "date >= minDate"
-     */
-    minDate: 1649416408000, // timestamp (in milliseconds since UNIX epoch)
-    maxDate: 1649589208000, // timestamp (in milliseconds since UNIX epoch)
-    bodyRegex: '(.*)How are you(.*)', // content regex to match
-
-    /** the next 5 filters should NOT be used together, they are OR-ed so pick one **/
-    // read: 0, // 0 for unread SMS, 1 for SMS already read
-    // _id: 1234, // specify the msg id
-    // thread_id: 12, // specify the conversation thread_id
-    // address: '+1888------', // sender's phone number
-    body: 'How are you', // content to match
-    /** the next 2 filters can be used for pagination **/
-    indexFrom: 0, // start from index 0
-    maxCount: 10, // count of SMS to return each time
+  const sendCommand = message => {
+    console.log(message);
+    if (message == 'tariff is high') {
+      offDevices();
+    }
+    if (message == 'tariff is low') {
+      onDevices();
+    }
   };
   useEffect(() => {
-    const requestCameraPermission = async () => {
-      console.log('useEffect run');
+    const interval = setInterval(() => {
+      if (permissionGranted === true) {
+        SmsAndroid.list(
+          JSON.stringify(filter),
+          fail => {
+            console.log('Failed with this error: ' + fail);
+          },
+          (count, smsList) => {
+            var arr = JSON.parse(smsList);
+            arr.forEach(function (object) {
+              if (!user.ids.includes(object._id)) {
+                setIds(object._id);
+                setMessages(object);
+                sendCommand(object.body);
+              }
+            });
+          },
+        );
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+  useEffect(() => {
+    const requestSmsPermission = async () => {
       try {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.READ_SMS,
           {
-            title: 'Cool Photo App Camera Permission',
-            message:
-              'Cool Photo App needs access to your camera ' +
-              'so you can take awesome pictures.',
+            title: 'Sms Permission',
+            message: 'Sms Permission ',
             buttonNeutral: 'Ask Me Later',
             buttonNegative: 'Cancel',
             buttonPositive: 'OK',
           },
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log('You can use the camera');
-          SmsAndroid.list(
-            JSON.stringify(filter),
-            fail => {
-              console.log('Failed with this error: ' + fail);
-            },
-            (count, smsList) => {
-              console.log('Count: ', count);
-              console.log('List: ', smsList);
-              var arr = JSON.parse(smsList);
-
-              arr.forEach(function (object) {
-                console.log('Object: ' + object);
-                console.log('-->' + object.date);
-                console.log('-->' + object.body);
-              });
-            },
-          );
+          setPermissionGranted(true);
         } else {
-          console.log('Camera permission denied');
+          setPermissionGranted(false);
+          console.log('Sms permission denied');
         }
       } catch (err) {
         console.log(err);
       }
     };
-    requestCameraPermission();
+    requestSmsPermission();
   }, []);
   useEffect(() => {
     fetchUser();
   }, []);
-  console.log('hello ', user.userDetails);
+
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -121,7 +160,7 @@ const Main = ({fetchUser, user}) => {
       />
       <Tab.Screen
         name="AddContainer"
-        component={HomeScreen}
+        component={AddDevice}
         options={{
           tabBarIcon: ({color, size}) => (
             <MaterialCommunityIcons name="plus-box" color={color} size={26} />
@@ -163,9 +202,7 @@ const mapStatetoProps = store => {
   };
 };
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({fetchUser}, dispatch);
+  bindActionCreators({fetchUser, setIds, setMessages}, dispatch);
 export default connect(mapStatetoProps, mapDispatchToProps)(Main);
-
-// export default Main;
 
 const styles = StyleSheet.create({});

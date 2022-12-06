@@ -1,30 +1,42 @@
-import {StyleSheet, Text, View, FlatList} from 'react-native';
+import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import React from 'react';
 
-const Profile = () => {
+const Profile = ({navigation}) => {
   return (
     <View style={{padding: 20, backgroundColor: '#062949', height: '100%'}}>
       <Text style={styles.heading}>Profile</Text>
-      <View style={styles.item}>
-        <Text style={styles.largeText}>Home</Text>
-        <Text style={styles.smallText}>Manage your home settings</Text>
-      </View>
-      <View style={styles.item}>
-        <Text style={styles.largeText}>Devices</Text>
-        <Text style={styles.smallText}>
-          Overview of all linked smart devices
-        </Text>
-      </View>
-      <View style={styles.item}>
-        <Text style={styles.largeText}>Contact Us</Text>
-        <Text style={styles.smallText}>
-          Having any trouble? Contact our support?
-        </Text>
-      </View>
-      <View style={styles.item}>
-        <Text style={styles.largeText}>About Us</Text>
-        {/* <Text style={styles.smallText}>About </Text> */}
-      </View>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('Home');
+        }}>
+        <View style={styles.item}>
+          <Text style={styles.largeText}>Home</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('AllDevices');
+        }}>
+        <View style={styles.item}>
+          <Text style={styles.largeText}>Devices</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('Contact');
+        }}>
+        <View style={styles.item}>
+          <Text style={styles.largeText}>Contact Us</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('About');
+        }}>
+        <View style={styles.item}>
+          <Text style={styles.largeText}>About Us</Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -51,6 +63,8 @@ const styles = StyleSheet.create({
   largeText: {
     fontSize: 20,
     color: '#8badbc',
+    // marginLeft: 'auto',
+    marginRight: 'auto',
   },
   smallText: {
     fontSize: 15,
